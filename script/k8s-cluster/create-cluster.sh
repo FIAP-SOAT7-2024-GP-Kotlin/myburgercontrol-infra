@@ -1,6 +1,8 @@
 #!/bin/bash
-PROJECT_ID=1f3e6919-579f-400b-9dab-a6dafaaaafa7
 PROJECT_NAME=soat7myburger
+
+doctl projects list
+PROJECT_ID=`doctl projects list -o json | jq -r ".[0].id"`
 
 doctl vpcs list
 
@@ -23,7 +25,7 @@ DO_CLUSTER_ID=`doctl kubernetes cluster get $K8S_CLUSTER_NAME -o json | jq ".[0]
 # Project Myburger UUID = 1f3e6919-579f-400b-9dab-a6dafaaaafa7
 echo "Cluster ID = $DO_CLUSTER_ID"
 
-echo "Assign K8s Cluster (ID=$DO_CLUSTER_ID) with Myburger Project (ID=1f3e6919-579f-400b-9dab-a6dafaaaafa7)"
-doctl projects resources assign 1f3e6919-579f-400b-9dab-a6dafaaaafa7 --resource="do:kubernetes:$DO_CLUSTER_ID"
+echo "Assign K8s Cluster (ID=$DO_CLUSTER_ID) with Myburger Project (ID=$PROJECT_ID)"
+doctl projects resources assign $PROJECT_ID --resource="do:kubernetes:$DO_CLUSTER_ID"
 
-doctl kubernetes cluster kubeconfig
+doctl kubernetes cluster kubeconfig save $K8S_CLUSTER_NAME
