@@ -14,15 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Install doctl
-        run: |
-          wget https://github.com/digitalocean/doctl/releases/download/v1.110.0/doctl-1.110.0-linux-amd64.tar.gz
-          tar xf doctl-*.tar.gz
-          sudo mv doctl /usr/local/bin
-
-      - name: Authenticate with Digital Ocean
-        run: |
-          doctl auth init -t ${{ secrets.DO_AUTH_TOKEN }} 
+      - name: Set up DigitalOcean
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_TOKEN_ACCESS }}
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
