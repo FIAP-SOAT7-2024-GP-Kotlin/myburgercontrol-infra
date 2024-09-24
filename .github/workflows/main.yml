@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/create-terraform
 
 jobs:
   deploy:
