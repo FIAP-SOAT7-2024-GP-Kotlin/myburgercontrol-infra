@@ -30,5 +30,6 @@ jobs:
 
       - name: Terraform apply
         run: terraform apply
+        working-directory: ./terraform/
         env:
           TF_VAR_do_token: ${{ secrets.DO_AUTH_TOKEN }}
