@@ -8,6 +8,6 @@ resource "digitalocean_database_cluster" "myburger_database_cluster" {
   engine     = "pg"
   version    = "16"
   size       = "db-s-1vcpu-1gb"
-  region     = "nyc3"
+  region     = "nyc1"
   node_count = 1
 }

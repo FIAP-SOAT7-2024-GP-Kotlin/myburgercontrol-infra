@@ -1,6 +1,6 @@
 resource "digitalocean_kubernetes_cluster" "my_burger_kubernetes_cluster" {
   name     = "my-burger-k8s"
-  region   = "nyc3"
+  region   = "nyc1"
   version  = "1.31.1-do.0"
   vpc_uuid = var.vpc_id
 
