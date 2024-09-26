@@ -6,7 +6,7 @@ resource "digitalocean_kubernetes_cluster" "my_burger_kubernetes_cluster" {
 
   node_pool {
     name       = "my-burger-node-pool"
-    size       = "s-1vcpu-2gb"
+    size       = "s-2vcpu-4gb"
     node_count = 1
     auto_scale = true
     min_nodes  = 1
