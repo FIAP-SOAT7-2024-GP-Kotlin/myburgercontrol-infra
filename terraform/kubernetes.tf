@@ -102,7 +102,9 @@ resource "kubernetes_config_map_v1" "myburger_config" {
   }
 
   data = {
-    api_host             = "my-burger-k8s:443"
-    "my_config_file.yml" = "${file("../k8s/app/myburger-configmap.yaml/myburger-configmap.yml")}"
+    JAVA_OPTS    = "-server -XX:+UseContainerSupport -XX:+UseParallelGC -XX:MaxRAMPercentage=70.0 -XX:ActiveProcessorCount=1600 -XX:+CrashOnOutOfMemoryError -Xlog:gc"
+    DATABASE_URL = "postgresql://postgres:5432/my_burger"
+    WIREMOCK_URL = "http://wiremock:8080/mercadopago/pagamento"
+    LOG_LEVEL    = "DEBUG"
   }
 }
