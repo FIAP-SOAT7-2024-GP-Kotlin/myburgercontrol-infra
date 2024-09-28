@@ -25,7 +25,7 @@ resource "kubernetes_service" "myburger_load_balancer" {
     port {
       port        = 8080
       target_port = 8080
-      node_port = 30001
+      node_port   = 30001
     }
 
     type = "LoadBalancer"
