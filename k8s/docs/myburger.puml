@@ -1,0 +1,61 @@
+@startuml myburguer-component
+title "MyBurguer Component Graph"
+skinparam componentstyle uml2
+
+<style>
+title {HorizontalAlignment center}
+</style>
+
+!define SPRITESURL https://raw.githubusercontent.com/plantuml-stdlib/gilbarbara-plantuml-sprites/v1.1/sprites
+!include <tupadr3/common>
+!include <tupadr3/devicons2/kubernetes>
+!includeurl SPRITESURL/kong-icon.puml
+!includeurl SPRITESURL/digital-ocean.puml
+!includeurl SPRITESURL/google-cloud-functions.puml
+!includeurl SPRITESURL/postgresql.puml
+
+actor User as user
+
+cloud "<$digital-ocean{scale=3,color=DarkBlue}>" as do {
+
+  component "<$kong-icon>\nKong API Gateway" as kong #LightGreen
+  note left of kong
+    A Kong API Gateway
+    cuida do roteamento das requisições
+    entre a Serverless Function e o 
+    componente principal da aplicação.
+  endnote
+
+  component "<$google-cloud-functions>\nAuth Serverless Function" as slFunction #LightSalmon
+  note left of slFunction 
+     A Serverless Function
+     cuida das autenticações
+      e criação de usuários.
+  endnote
+
+  kong --> slFunction : "HTTP \\auth \nHTTP \\user\\register"
+
+  package "<$kubernetes{scale=.5,color=Blue}>Kubernetes\nCluster" as k8s {
+    interface "MyBurguer\nSVC" as mbService #LightYellow
+    component "MyBurguer\nDeployment" as mbDeployment #LightYellow
+    component "MyBurguer\nConfigMap" as mbConfig #LightYellow
+    component "MyBurguer\nSecret" as mbSecret #LightYellow
+    
+
+    mbService -d-> mbDeployment
+    mbDeployment .r.> mbConfig
+    mbDeployment .r.> mbSecret
+    mbConfig .d[hidden].> mbSecret
+  }
+
+  kong --> mbService : "other HTTP requests"
+
+  database "<$postgresql>\nPostgreSQL\non DigitalOcean" as postgresService #LightBlue
+  
+  mbDeployment -d--> postgresService : port 5432
+}
+
+user --> kong
+
+
+@enduml
