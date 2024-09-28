@@ -7,7 +7,6 @@ terraform {
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = ">= 2.32.0"
-      host    = data.digitalocean_kubernetes_cluster.my_burger_kubernetes_cluster.endpoint
     }
   }
 }
@@ -18,4 +17,5 @@ provider "digitalocean" {
 
 provider "kubernetes" {
   config_path = "~/.kube/config"
+  host        = data.digitalocean_kubernetes_cluster.my_burger_kubernetes_cluster.endpoints
 }
