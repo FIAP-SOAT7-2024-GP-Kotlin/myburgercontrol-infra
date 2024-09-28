@@ -104,7 +104,6 @@ resource "kubernetes_config_map_v1" "myburger_config" {
   data = {
     JAVA_OPTS    = "-server -XX:+UseContainerSupport -XX:+UseParallelGC -XX:MaxRAMPercentage=70.0 -XX:ActiveProcessorCount=1600 -XX:+CrashOnOutOfMemoryError -Xlog:gc"
     DATABASE_URL = "postgresql://postgres:5432/my_burger"
-    WIREMOCK_URL = "http://wiremock:8080/mercadopago/pagamento"
     LOG_LEVEL    = "DEBUG"
   }
 }
