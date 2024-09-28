@@ -32,7 +32,7 @@ resource "kubernetes_service" "myburger_load_balancer" {
   }
   depends_on = [
     digitalocean_kubernetes_cluster.my_burger_kubernetes_cluster,
-    kubernetes_deployment_v1. myburger_deployment,
+    kubernetes_deployment_v1.myburger_deployment,
     kubernetes_config_map_v1.myburger_config
   ]
 }
