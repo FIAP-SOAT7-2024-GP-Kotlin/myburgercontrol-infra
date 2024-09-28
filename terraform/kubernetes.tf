@@ -30,6 +30,11 @@ resource "kubernetes_service" "myburger_load_balancer" {
 
     type = "LoadBalancer"
   }
+  depends_on = [
+    digitalocean_kubernetes_cluster.my_burger_kubernetes_cluster,
+    kubernetes_deployment_v1. myburger_deployment,
+    kubernetes_config_map_v1.myburger_config
+  ]
 }
 
 resource "kubernetes_deployment_v1" "myburger_deployment" {
@@ -94,6 +99,10 @@ resource "kubernetes_deployment_v1" "myburger_deployment" {
       }
     }
   }
+  depends_on = [
+    digitalocean_kubernetes_cluster.my_burger_kubernetes_cluster,
+    kubernetes_config_map_v1.myburger_config
+  ]
 }
 
 resource "kubernetes_config_map_v1" "myburger_config" {
