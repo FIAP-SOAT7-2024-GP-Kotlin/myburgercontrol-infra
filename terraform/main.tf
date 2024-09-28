@@ -17,5 +17,5 @@ provider "digitalocean" {
 
 provider "kubernetes" {
   config_path = "~/.kube/config"
-  host        = data.digitalocean_kubernetes_cluster.my_burger_kubernetes_cluster.endpoints
+  host        = resource.digitalocean_kubernetes_cluster.my_burger_kubernetes_cluster.endpoint
 }
