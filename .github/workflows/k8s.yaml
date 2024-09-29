@@ -26,7 +26,7 @@ jobs:
           PROJECT_ID=`doctl projects list -o json | jq -r ".[0].id"`
           doctl kubernetes cluster get $K8S_CLUSTER_NAME
           doctl projects resources assign $PROJECT_ID --resource="do:kubernetes:$DO_CLUSTER_ID"
-          doctl kubernetes cluster kubeconfig save K8S_CLUSTER_NAME
+          doctl kubernetes cluster kubeconfig save $K8S_CLUSTER_NAME
 
       - name: Kube Apply
         run: |
