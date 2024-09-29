@@ -1,0 +1,37 @@
+name: Deploy k8s
+
+on:
+  workflow_run:
+    workflows: ["Deploy to DigitalOcean"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_do_token: ${{ secrets.DO_TOKEN_ACCESS }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up DigitalOcean
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_TOKEN_ACCESS }}
+
+      - name: Save kubeconfig
+        run: |
+          PROJECT_ID=`doctl projects list -o json | jq -r ".[0].id"`
+          doctl kubernetes cluster get $K8S_CLUSTER_NAME
+          doctl projects resources assign $PROJECT_ID --resource="do:kubernetes:$DO_CLUSTER_ID"
+          doctl kubernetes cluster kubeconfig save K8S_CLUSTER_NAME
+
+      - name: Kube Apply
+        run: |
+          kubectl apply -f k8s/app/myburger-configmap.yaml
+          kubectl apply -f k8s/app/myburger-secret.yaml
+          kubectl apply -f k8s/app/myburger-deployment.yaml
+          kubectl apply -f k8s/app/myburger-hpa.yaml
+          kubectl apply -f k8s/app/myburger-svc.yaml
