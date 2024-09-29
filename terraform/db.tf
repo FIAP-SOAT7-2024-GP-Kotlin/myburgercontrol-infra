@@ -11,3 +11,9 @@ resource "digitalocean_database_cluster" "myburger_database_cluster" {
   region     = "nyc1"
   node_count = 1
 }
+
+resource "digitalocean_database_user" "my_burger_user" {
+  cluster_id = digitalocean_database_cluster.postgres-example.id
+  name       = "my_burger"
+  password   = "password"
+}
