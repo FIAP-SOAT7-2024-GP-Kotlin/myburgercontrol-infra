@@ -14,5 +14,4 @@ data:
     -XX:+CrashOnOutOfMemoryError
     -Xlog:gc
   DATABASE_URL: "postgresql://postgres:5432/my_burger"
-  WIREMOCK_URL: "http://wiremock:8080/mercadopago/pagamento"
   LOG_LEVEL: "DEBUG"

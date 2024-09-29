@@ -1,13 +1,13 @@
-name: Deploy to DigitalOcean
+name: Deploy api-gtw
 
 on:
     workflow_run:
-      workflows: [Terraform]
+      workflows: [Deploy k8s]
       types:
         - completed
 
 jobs:
-  deploy:
+  deploy-api:
     runs-on: ubuntu-latest
 
     steps:
