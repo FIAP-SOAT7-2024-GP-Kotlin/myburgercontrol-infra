@@ -1,0 +1,35 @@
+name: Deploy k8s
+
+on:
+  workflow_run:
+    workflows: ["Terraform"]
+    types:
+      - completed
+      
+jobs:
+  k8s:
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_do_token: ${{ secrets.DO_TOKEN_ACCESS }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up DigitalOcean
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_TOKEN_ACCESS }}
+
+      - name: Save kubeconfig
+        run: |
+          K8S_CLUSTER_NAME=`doctl kubernetes cluster list --no-header --format Name`
+          doctl kubernetes cluster kubeconfig save $K8S_CLUSTER_NAME
+
+      - name: Kube Apply
+        run: |
+          kubectl apply -f k8s/app/myburger-configmap.yaml
+          kubectl apply -f k8s/app/myburger-secret.yaml
+          kubectl apply -f k8s/app/myburger-deployment.yaml
+          kubectl apply -f k8s/app/myburger-hpa.yaml
+          kubectl apply -f k8s/app/myburger-svc.yaml
