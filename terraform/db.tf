@@ -13,7 +13,7 @@ resource "digitalocean_database_cluster" "myburger_database_cluster" {
 }
 
 resource "digitalocean_database_user" "my_burger_user" {
-  cluster_id = digitalocean_database_cluster.postgres-example.id
+  cluster_id = digitalocean_database_cluster.myburger_database_cluster.id
   name       = "my_burger"
   password   = "password"
 }
