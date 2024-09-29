@@ -1,3 +1,3 @@
 data "digitalocean_vpc" "vpc" {
-  region = "ny1"
+  region = "nyc1"
 }
