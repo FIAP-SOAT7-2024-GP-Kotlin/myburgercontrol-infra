@@ -2,7 +2,7 @@ name: Deploy k8s
 
 on:
   workflow_run:
-    workflows: ["Deploy to DigitalOcean"]
+    workflows: ["Terraform"]
     types:
       - completed
 
