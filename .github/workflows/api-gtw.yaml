@@ -1,9 +1,10 @@
 name: Deploy to DigitalOcean
 
 on:
-  push:
-    branches:
-      - main
+    workflow_run:
+      workflows: ["Terraform"]
+      types:
+        - completed
 
 jobs:
   deploy:
