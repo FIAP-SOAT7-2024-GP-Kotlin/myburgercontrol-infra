@@ -1,13 +1,13 @@
 name: Deploy k8s
 
 on:
-  push:
-    branches:
-      - main
-      - feature/create-terraform
+  workflow_run:
+    workflows: ["Terraform"]
+    types:
+      - completed
 
 jobs:
-  deploy:
+  k8s:
     runs-on: ubuntu-latest
     env:
       TF_VAR_do_token: ${{ secrets.DO_TOKEN_ACCESS }}
@@ -23,9 +23,7 @@ jobs:
 
       - name: Save kubeconfig
         run: |
-          PROJECT_ID=`doctl projects list -o json | jq -r ".[0].id"`
-          doctl kubernetes cluster get $K8S_CLUSTER_NAME
-          doctl projects resources assign $PROJECT_ID --resource="do:kubernetes:$DO_CLUSTER_ID"
+          K8S_CLUSTER_NAME=`doctl kubernetes cluster list --no-header --format Name`
           doctl kubernetes cluster kubeconfig save $K8S_CLUSTER_NAME
 
       - name: Kube Apply
