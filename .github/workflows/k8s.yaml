@@ -5,11 +5,7 @@ on:
     workflows: ["Terraform"]
     types:
       - completed
-  push:
-    branches:
-      - main
-      - feature/create-terraform
-
+      
 jobs:
   k8s:
     runs-on: ubuntu-latest
