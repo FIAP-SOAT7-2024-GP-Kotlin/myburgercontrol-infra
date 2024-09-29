@@ -1,10 +1,14 @@
 name: Deploy k8s
 
 on:
-  workflow_run:
-    workflows: ["Terraform"]
-    types:
-      - completed
+  # workflow_run:
+  #   workflows: ["Terraform"]
+  #   types:
+  #     - completed
+  push:
+    branches:
+      - main
+      - feature/create-terraform
 
 jobs:
   k8s:
