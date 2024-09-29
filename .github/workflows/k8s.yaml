@@ -2,7 +2,7 @@ name: Deploy k8s
 
 on:
   workflow_run:
-    workflows: ["Terraform"]
+    workflows: [Terraform]
     types:
       - completed
       
