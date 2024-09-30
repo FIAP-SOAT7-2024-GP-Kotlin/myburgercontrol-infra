@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: myburger
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: myburger
   ports:
