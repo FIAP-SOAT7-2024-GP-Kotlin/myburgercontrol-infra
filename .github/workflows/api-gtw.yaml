@@ -2,7 +2,7 @@ name: Deploy api-gtw
 
 on:
   workflow_run:
-    workflows: [Deploy k8s]
+    workflows: ["Deploy k8s"]
     types:
       - completed
 
@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Checkout code [MyBurger ≡]
         uses: actions/checkout@v4
-      
+
       - name: Set up DigitalOcean [MyBurger ≡]
         uses: digitalocean/action-doctl@v2
         with:
@@ -39,7 +39,7 @@ jobs:
           source: "api-gtw.tar"
           target: "~"
           timeout: 120s
-        
+
       - name: Deploy to Digital Ocean droplet via SSH action
         uses: appleboy/ssh-action@master
         with:
