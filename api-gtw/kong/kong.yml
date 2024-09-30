@@ -1,0 +1,30 @@
+_format_version: "3.0"
+_transform: true
+
+
+plugins:
+  - name: file-log
+    enabled: false
+    config:
+      path: "/dev/stdout"
+
+routes:
+  - name: healthcheck
+    paths:
+      - "/health"
+    plugins:
+      - name: request-termination
+        config:
+          status_code: 200
+          content_type: applicaton/json
+          body: '{"status":"UP"}'
+
+
+services:
+- name: auth-service
+  url: https://faas-nyc1-2ef2e6cc.doserverless.co/api/v1/namespaces/fn-40807b32-b98c-439f-8bd7-99d62dcc3994/actions/authentication/authenticate
+  routes:
+  - name: auth-route
+    paths:
+    - "/auth"
+    strip_path: true
