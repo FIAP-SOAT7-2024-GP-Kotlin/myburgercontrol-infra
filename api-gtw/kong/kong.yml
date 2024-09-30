@@ -28,3 +28,10 @@ services:
     paths:
     - "/auth"
     strip_path: true
+- name: myburger-service
+  url: https://google.com
+  routes:
+  - name: myburger-route
+    paths:
+    - "/"
+    strip_path: false
