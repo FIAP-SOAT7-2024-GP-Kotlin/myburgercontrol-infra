@@ -13,5 +13,5 @@ data:
     -XX:ActiveProcessorCount=1600
     -XX:+CrashOnOutOfMemoryError
     -Xlog:gc
-  DATABASE_URL: "postgresql://postgres:5432/my_burger"
+  DATABASE_URL: "private-myburger-db-server-do-user-17490961-0.d.db.ondigitalocean.com"
   LOG_LEVEL: "DEBUG"
