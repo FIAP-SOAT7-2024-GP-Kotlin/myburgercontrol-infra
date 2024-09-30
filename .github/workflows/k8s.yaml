@@ -33,20 +33,7 @@ jobs:
           kubectl apply -f k8s/app/myburger-deployment.yaml
           kubectl apply -f k8s/app/myburger-hpa.yaml
           kubectl apply -f k8s/app/myburger-svc.yaml
-  
-  api:
-    runs-on: ubuntu-latest
-    needs: [k8s]
-
-    steps:
-      - name: Checkout code [MyBurger ≡]
-        uses: actions/checkout@v4
       
-      - name: Set up DigitalOcean [MyBurger ≡]
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DO_AUTH_TOKEN }}
-
       - name: Get First Droplet ID [MyBurger ≡]
         run: |
           DROPLET_IP=$(doctl compute droplet list 'my-burger-api-gtw' --format 'Public IPv4' --no-header | head -n 1)
