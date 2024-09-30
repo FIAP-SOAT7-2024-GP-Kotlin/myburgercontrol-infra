@@ -29,6 +29,7 @@ jobs:
           DB_PASS: ${{ env.DB_PASS }}
         run: |
           mkdir tmp
+          echo "DB_PASS=$DB_PASS"
           sed 's/#DATABASE_PASSWORD#/'"$DB_PASS"'/g' k8s/app/myburger-secret-template.yaml > tmp/myburger-secret.yaml
           kubectl apply -f k8s/app/myburger-configmap.yaml
           kubectl apply -f tmp/myburger-secret.yaml
