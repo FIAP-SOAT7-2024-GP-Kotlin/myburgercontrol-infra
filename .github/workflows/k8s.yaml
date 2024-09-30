@@ -9,9 +9,6 @@ on:
 jobs:
   k8s:
     runs-on: ubuntu-latest
-    env:
-      TF_VAR_do_token: ${{ secrets.DO_TOKEN_ACCESS }}
-      DB_PASS: ${{ env.DB_PASS }}
 
     steps:
       - name: Checkout code
@@ -28,12 +25,12 @@ jobs:
           doctl kubernetes cluster kubeconfig save $K8S_CLUSTER_NAME
 
       - name: Kube Apply
+        env:
+          DB_PASS: ${{ env.DB_PASS }}
         run: |
+          mkdir tmp
           sed 's/#DATABASE_PASSWORD#/'"$DB_PASS"'/g' k8s/app/myburger-secret-template.yaml > tmp/myburger-secret.yaml
-          
-          kubectl delete -f k8s/app/myburger-configmap.yaml
           kubectl apply -f k8s/app/myburger-configmap.yaml
-          kubectl delete -f tmp/myburger-secret.yaml
           kubectl apply -f tmp/myburger-secret.yaml
           kubectl apply -f k8s/app/myburger-deployment.yaml
           kubectl apply -f k8s/app/myburger-hpa.yaml
