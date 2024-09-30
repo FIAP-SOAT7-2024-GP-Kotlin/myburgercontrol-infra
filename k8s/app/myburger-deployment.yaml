@@ -44,3 +44,4 @@ spec:
             initialDelaySeconds: 90
             periodSeconds: 10
             failureThreshold: 5
+    progressDeadlineSeconds: 600
