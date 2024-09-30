@@ -2,9 +2,9 @@ name: Deploy api-gtw
 
 on:
   workflow_run:
-     workflows: [Deploy k8s]
-     types:
-       - completed
+    workflows: [Deploy k8s]
+    types:
+      - completed
 
 jobs:
   deploy-api:
