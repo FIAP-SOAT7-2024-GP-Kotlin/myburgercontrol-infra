@@ -1,4 +1,4 @@
-name: Deploy k8s
+name: Deployk8s
 
 on:
   workflow_run:
