@@ -13,7 +13,7 @@ data:
     -XX:ActiveProcessorCount=1600
     -XX:+CrashOnOutOfMemoryError
     -Xlog:gc
-  DATABASE_URL: "postgresql://myburger-db-server-do-user-17490961-0.d.db.ondigitalocean.com:25060/my_burger"
+  DATABASE_URL: "postgresql://myburger-db-server-do-user-17490961-0.l.db.ondigitalocean.com:25060/my_burger"
   LOG_LEVEL: "DEBUG"
   MP_NOTIFICATION_URL: https://concise-humble-mosquito.ngrok-free.app/api/v1/webhook?source_news=ipn
   MP_PAYMENT_URL: https://api.mercadopago.com/v1/payments

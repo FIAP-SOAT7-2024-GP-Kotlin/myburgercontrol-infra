@@ -1,7 +1,6 @@
 _format_version: "3.0"
 _transform: true
 
-
 plugins:
   - name: file-log
     enabled: false
@@ -18,7 +17,6 @@ routes:
           status_code: 200
           content_type: applicaton/json
           body: '{"status":"UP"}'
-
 
 services:
 - name: auth-service
