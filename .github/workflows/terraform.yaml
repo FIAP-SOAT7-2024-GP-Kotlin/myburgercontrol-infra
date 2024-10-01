@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -14,7 +15,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Set up DigitalOcean
         uses: digitalocean/action-doctl@v2
         with:
@@ -28,11 +29,11 @@ jobs:
       - name: Terraform init
         run: terraform init
         working-directory: ./terraform/
-  
+
       - name: Terraform Format
         run: terraform fmt -check
         working-directory: ./terraform/
-  
+
       - name: Terraform Plan
         run: terraform plan -input=false
         working-directory: ./terraform/
