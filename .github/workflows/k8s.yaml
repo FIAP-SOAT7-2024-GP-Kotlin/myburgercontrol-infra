@@ -40,6 +40,6 @@ jobs:
           sed 's/#DATABASE_PASSWORD#/'"$DB_PASS"'/g' k8s/app/myburger-secret-template.yaml > tmp/myburger-secret.yaml
           kubectl apply -f k8s/app/myburger-configmap.yaml
           kubectl apply -f tmp/myburger-secret.yaml
-          kubectl apply -f k8s/app/myburger-deployment.yaml
+          kubectl apply -f k8s/app/myburger-deployment.yaml --wait=true
           kubectl apply -f k8s/app/myburger-hpa.yaml
-          kubectl apply -f k8s/app/myburger-svc.yaml
+          kubectl apply -f k8s/app/myburger-svc.yaml --wait=true
