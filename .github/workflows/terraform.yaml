@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_VAR_do_token: ${{ secrets.DO_TOKEN_ACCESS }}
+      WORKFLOW_PAT: ${{ secrets.WORKFLOW_PAT }}
 
     steps:
       - name: Checkout code
@@ -43,8 +44,6 @@ jobs:
         working-directory: ./terraform/
 
       - name: Trigger DB Update
-        env:
-          WORKFLOW_PAT: ${{ secrets.WORKFLOW_PAT }}
         run: |
           echo "Triggering DB Migrations for initialize the Database"
           curl -L \
