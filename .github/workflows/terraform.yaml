@@ -3,7 +3,7 @@ name: Terraform
 on:
   push:
     branches:
-      - main    
+      - main
 
 jobs:
   deploy:
@@ -40,24 +40,3 @@ jobs:
       - name: Terraform apply
         run: terraform apply -auto-approve -input=false
         working-directory: ./terraform/
-
-  get-password:
-    needs: [deploy]
-    runs-on: ubuntu-latest
-    env:
-      TF_VAR_do_token: ${{ secrets.DO_TOKEN_ACCESS }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Set up DigitalOcean
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DO_TOKEN_ACCESS }}
-
-      - name: Get userpassword
-        run: |
-          DB_ID=$(doctl databases list --format ID --no-header)
-          DB_PASS=$(doctl databases user get $DB_ID doadmin --format Password --no-header)
-          echo "DB_PASS=$DB_PASS" >> $GITHUB_ENV

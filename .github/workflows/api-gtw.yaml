@@ -56,12 +56,10 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            ufw enable
-            ufw allow 8080/tcp
             apt-get -y install docker-compose
             tar --overwrite -xvf api-gtw.tar
             cd api-gtw/
             sed 's/#K8S_LB_IP#/'"$K8S_LB_IP"'/g' -i kong/kong.yml
-            docker-compose -f docker-compose.yml down
-            docker-compose -f docker-compose.yml pull
-            docker-compose -f docker-compose.yml up -d
+            docker compose down
+            docker compose pull
+            docker compose up -d
