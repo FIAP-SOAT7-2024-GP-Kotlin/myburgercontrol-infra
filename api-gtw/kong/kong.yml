@@ -6,6 +6,13 @@ plugins:
     enabled: false
     config:
       path: "/dev/stdout"
+  - name: request-transformer
+    enabled: true
+    service: auth-service
+    config:
+      add:
+        headers:
+        - "Authorization: Basic MWYxNGEzMzUtYTQ0OC00NTllLWE5MDMtYTVjNzg5OTA5MmY5Ojlmd2ZNUTNxYzBXcVY1YWpSTTFJS2syZndsQWtIS01aakI0M0dQQmdpQ2sxOEp4c2JiZlBuMHJqMFpkR3NKb1I="
 
 routes:
   - name: healthcheck
@@ -24,5 +31,16 @@ services:
   routes:
   - name: auth-route
     paths:
-    - "/auth"
+    - "/api/v1/auth"
+    strip_path: true
+
+- name: myburger-service
+  host: "#K8S_LB_IP#"
+  port: 8080
+  protocol: http
+  path: "/api/v1"
+  routes:
+  - name: myburger-route
+    paths:
+    - "/api/v1"
     strip_path: true
