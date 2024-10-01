@@ -1,7 +1,6 @@
 _format_version: "3.0"
 _transform: true
 
-
 plugins:
   - name: file-log
     enabled: false
