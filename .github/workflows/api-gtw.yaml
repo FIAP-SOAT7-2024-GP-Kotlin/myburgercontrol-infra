@@ -40,6 +40,15 @@ jobs:
           target: "~"
           timeout: 120s
 
+      - name: Save kubeconfig
+        run: |
+          K8S_CLUSTER_NAME=`doctl kubernetes cluster list --no-header --format Name`
+          doctl kubernetes cluster kubeconfig save $K8S_CLUSTER_NAME
+      
+      - name: Get LoadBalancer IP
+        run: |
+          K8S_LB_IP=kubectl get svc -o=jsonpath='{.items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[0].ip}'
+
       - name: Deploy to Digital Ocean droplet via SSH action
         uses: appleboy/ssh-action@master
         with:
@@ -52,6 +61,7 @@ jobs:
             apt-get -y install docker-compose
             tar --overwrite -xvf api-gtw.tar
             cd api-gtw/
+            sed 's/#K8S_LB_IP#/'"$K8S_LB_IP"'/g' -i kong/kong.yml
             docker-compose -f docker-compose.yml down
             docker-compose -f docker-compose.yml pull
             docker-compose -f docker-compose.yml up -d
