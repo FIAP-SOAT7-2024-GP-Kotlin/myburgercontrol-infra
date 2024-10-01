@@ -11,3 +11,12 @@ resource "digitalocean_database_cluster" "myburger_database_cluster" {
   region     = "nyc1"
   node_count = 1
 }
+
+resource "time_sleep" "db_ready" {
+  create_duration = "60s"
+  depends_on      = [digitalocean_database_db.my_burger_database]
+
+  provisioner "local-exec" {
+    command = "echo \"Waiting for database to be ready...\""
+  }
+}

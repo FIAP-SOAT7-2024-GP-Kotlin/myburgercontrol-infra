@@ -1,3 +1,4 @@
 doctl system
 kubectl 1.31.0
 helm 3.15.1
+terraform 1.9.6

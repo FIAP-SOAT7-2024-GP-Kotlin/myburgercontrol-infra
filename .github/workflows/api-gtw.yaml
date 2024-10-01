@@ -60,7 +60,7 @@ jobs:
             apt-get -y install docker-compose
             tar --overwrite -xvf api-gtw.tar
             cd api-gtw/
-            echo "K8S_LB_IP=$K8S_LB_IP"
+            echo "K8S_LB_IP=${{ env.K8S_LB_IP }}"
             sed 's/#K8S_LB_IP#/'"${{ env.K8S_LB_IP }}"'/g' -i kong/kong.yml
             docker compose down
             docker compose pull
