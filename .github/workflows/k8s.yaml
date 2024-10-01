@@ -43,3 +43,17 @@ jobs:
           kubectl apply -f k8s/app/myburger-deployment.yaml --wait=true
           kubectl apply -f k8s/app/myburger-hpa.yaml
           kubectl apply -f k8s/app/myburger-svc.yaml --wait=true
+      
+      - name: Wait for LoadBalancer
+        run: |
+          echo "Waiting for Service LoadBalancer to start"
+          for i in {1..30}; do
+            K8S_LB_IP=`kubectl get svc -o=jsonpath='{.items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[0].ip}'`
+            if [ ! -z "$K8S_LB_IP" ]; then
+              echo "LoadBalancer started $K8S_LB_IP"
+              exit 0
+            fi
+
+            sleep 20            
+          done
+          echo "LoadBalancer failed to start"
