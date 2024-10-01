@@ -47,8 +47,8 @@ jobs:
       
       - name: Get LoadBalancer IP
         run: |
-          K8S_LB_IP=$(kubectl get svc -o=jsonpath='{.items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[0].ip}')
-          echo "K8S_LB_IP=$K8S_LB_IP"
+          K8S_LB_IP=$(kubectl get svc -o=jsonpath='{.items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[0].ip}') 
+          echo "K8S_LB_IP=$K8S_LB_IP" >> $GITHUB_ENV
 
       - name: Deploy to Digital Ocean droplet via SSH action
         uses: appleboy/ssh-action@master
@@ -61,7 +61,7 @@ jobs:
             tar --overwrite -xvf api-gtw.tar
             cd api-gtw/
             echo "K8S_LB_IP=$K8S_LB_IP"
-            sed 's/#K8S_LB_IP#/'"$K8S_LB_IP"'/g' -i kong/kong.yml
+            sed 's/#K8S_LB_IP#/'"${{ env.K8S_LB_IP }}"'/g' -i kong/kong.yml
             docker compose down
             docker compose pull
             docker compose up -d
