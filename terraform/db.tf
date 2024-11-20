@@ -26,6 +26,6 @@ resource "digitalocean_database_cluster" "myburger_mongodb_database_cluster" {
   engine     = "mongodb"
   version    = "7"
   size       = "db-s-1vcpu-1gb"
-  region     = "nyc3"
+  region     = "nyc1"
   node_count = 1
 }
