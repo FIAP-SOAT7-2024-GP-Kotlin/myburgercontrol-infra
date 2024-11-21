@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: myburger
-          image: fiapmyburguer/myburgercontrol-clean-arch:latest
+          image: fiapmyburguer/myburger-order-service:latest
           imagePullPolicy: Always
           resources:
             limits:
