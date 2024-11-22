@@ -13,6 +13,6 @@ data:
     -XX:ActiveProcessorCount=1600
     -XX:+CrashOnOutOfMemoryError
     -Xlog:gc
-  MONGODB_URI: "postgresql://myburger-db-server-do-user-17490961-0.l.db.ondigitalocean.com:25060/my_burger"
+  MONGODB_URI: "mongodb+srv://private-my-burger-c54ad166.mongo.ondigitalocean.com"
   MANAGEMENT_SERVICE_URL: ""
   PAYMENT_SERVICE_URL: ""

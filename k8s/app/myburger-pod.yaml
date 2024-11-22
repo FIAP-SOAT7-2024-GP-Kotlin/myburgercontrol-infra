@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: myburger
+  name: myburger-order
   labels:
-    app: myburger
+    app: myburger-order
 spec:
   containers:
-    - name: myburger
+    - name: myburger-order
       image: fiapmyburguer/myburgercontrol-clean-arch:latest
       resources:
         limits:
@@ -17,4 +17,4 @@ spec:
         - containerPort: 8080
       envFrom:
         - configMapRef:
-            name: myburger-config
+            name: myburger-config-order
