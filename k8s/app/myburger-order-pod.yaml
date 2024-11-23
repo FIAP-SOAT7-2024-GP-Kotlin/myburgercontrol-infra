@@ -17,4 +17,4 @@ spec:
         - containerPort: 8080
       envFrom:
         - configMapRef:
-            name: myburger-config-order
+            name: myburger-config
