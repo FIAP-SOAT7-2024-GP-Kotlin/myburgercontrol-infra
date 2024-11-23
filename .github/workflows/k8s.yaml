@@ -1,6 +1,9 @@
 name: Deployk8s
 
 on:
+  push:
+    branches:
+      - setup-order-k8s
   workflow_dispatch:
 
 jobs:
