@@ -20,3 +20,12 @@ resource "time_sleep" "db_ready" {
     command = "echo \"Waiting for database to be ready...\""
   }
 }
+
+resource "digitalocean_database_cluster" "myburger_mongodb_database_cluster" {
+  name       = "my-burger"
+  engine     = "mongodb"
+  version    = "7"
+  size       = "db-s-1vcpu-1gb"
+  region     = "nyc1"
+  node_count = 1
+}

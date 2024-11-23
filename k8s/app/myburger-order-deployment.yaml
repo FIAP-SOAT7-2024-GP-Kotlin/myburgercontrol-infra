@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myburger
+  name: myburger-order
 spec:
   selector:
     matchLabels:
-      app: myburger
+      app: myburger-order
   replicas: 1
   template:
     metadata:
       labels:
-        app: myburger
+        app: myburger-order
     spec:
       containers:
-        - name: myburger
-          image: fiapmyburguer/myburgercontrol-clean-arch:latest
+        - name: myburger-order
+          image: fiapmyburguer/myburger-order-service:latest
           imagePullPolicy: Always
           resources:
             limits:
