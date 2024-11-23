@@ -9,6 +9,8 @@ on:
 jobs:
   deploy-k8s:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_USER: doadmin
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -27,8 +29,8 @@ jobs:
           echo "PG_DB_PASS=$PG_DB_PASS" >> $GITHUB_ENV
 
           MONGO_DB_ID=$(doctl db list | grep mongo | awk '{print $1}')
-          MONGO_DB_PASS=$(do -format Password --no-header)
-          MONGO_DB_HOST=$(doctl databases connection $MONGO_DB_ID --format Host --no-header)
+          MONGO_DB_PASS=$(doctl databases user get $MONGO_DB_ID $DATABASE_USER --format Password --no-header)
+          MONGO_DB_HOST=$(doctl databases connection $MONGO_DB_ID --format URI --no-header)
           echo "MONGO_DB_HOST"=$MONGO_DB_HOST >> $GITHUB_ENV
           echo "MONGO_DB_PASS=$MONGO_DB_PASS" >> $GITHUB_ENV
 
