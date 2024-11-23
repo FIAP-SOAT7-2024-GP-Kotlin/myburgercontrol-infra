@@ -52,4 +52,3 @@ Para subir o ambiente e a aplicação My Burger, siga os passos abaixo:
 > sh -v ./script/k8s-cluster/init-db-on-digital-ocean.sh
 >
 > sh -v ./script/k8s-cluster/start-myburger.sh
-
