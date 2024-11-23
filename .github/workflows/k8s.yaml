@@ -21,13 +21,13 @@ jobs:
       - name: Get db user and host
         run: |
           PG_DB_ID=$(doctl db list | grep pg | awk '{print $1}')
-          PG_DB_PASS=$(do -format Password --no-header)
+          PG_DB_PASS=$(doctl databases user get $PG_DB_ID doadmin --format Password --no-header)
           PG_DB_HOST=$(doctl databases connection $PG_DB_ID --format Host --no-header)
           echo "PG_DB_HOST"=$PG_DB_HOST >> $GITHUB_ENV
           echo "PG_DB_PASS=$PG_DB_PASS" >> $GITHUB_ENV
 
           MONGO_DB_ID=$(doctl db list | grep mongo | awk '{print $1}')
-          MONGO_DB_PASS=$(do -format Password --no-header)
+          MONGO_DB_PASS=$(doctl databases user get $PG_DB_ID doadmin --format Password --no-header)
           MONGO_DB_HOST=$(doctl databases connection $MONGO_DB_ID --format Host --no-header)
           echo "MONGO_DB_HOST"=$MONGO_DB_HOST >> $GITHUB_ENV
           echo "MONGO_DB_PASS=$MONGO_DB_PASS" >> $GITHUB_ENV

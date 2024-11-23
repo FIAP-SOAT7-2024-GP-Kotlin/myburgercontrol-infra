@@ -17,4 +17,8 @@ for DB_ID in $DB_IDS; do
 done
 
 echo "Deleting api-gtw"
-doctl compute droplet delete my-burger-api-gtw
+DROPLET_IDS=$(doctl compute droplet list --format ID --no-header)
+for DROPLET_ID in $DROPLET_IDS; do
+  echo "Deleting database with ID: $DROPLET_ID"
+  doctl compute droplet delete $DROPLET_ID --force
+done
