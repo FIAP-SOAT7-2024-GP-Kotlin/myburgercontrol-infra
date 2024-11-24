@@ -46,8 +46,7 @@ jobs:
         run: |
           mkdir tmp
           echo "PG_DB_PASS=$PG_DB_PASS"
-          echo "MONGO_DB_PASS=$MONGO_DB_PASS"
-          echo "MONGODB_URI=$MONGODB_URI" | sed 's|://doadmin:@|://doadmin:$MONGODB_PASS@|'
+          echo "MONGODB_URI=$MONGODB_URI" | sed 's|://doadmin:@|://admin:$MONGODB_PASS@|'
           sed 's/#PG_DATABASE_PASSWORD#/'"$PG_DB_PASS"'/g; s/#MONGO_DATABASE_PASSWORD#/'"$MONGO_DB_PASS"'/g' k8s/app/myburger-secret-template.yaml > tmp/myburger-secret.yaml
           sed 's/#MONGODB_URI#/'"$MONGODB_URI"'/g; k8s/app/myburger-configmap.yaml > tmp/myburger-configmap.yaml
           kubectl apply -f k8s/app/myburger-configmap.yaml
