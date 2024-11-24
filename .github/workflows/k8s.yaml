@@ -3,7 +3,7 @@ name: Deployk8s
 on:
   push:
     branches:
-      - update-k8s
+      - feature/run-k8s
 
 jobs:
   deploy-k8s:
