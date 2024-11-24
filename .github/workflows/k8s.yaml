@@ -3,7 +3,7 @@ name: Deployk8s
 on:
   push:
     branches:
-      - faeture/fixes
+      - feature/fixes
   workflow_dispatch:
 
 jobs:
