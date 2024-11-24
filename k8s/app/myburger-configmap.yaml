@@ -13,7 +13,7 @@ data:
     -XX:ActiveProcessorCount=1600
     -XX:+CrashOnOutOfMemoryError
     -Xlog:gc
-  MONGODB_URI: "mongodb+srv://private-my-burger-c54ad166.mongo.ondigitalocean.com"
+  MONGODB_URI: "#MONGODB_URI#"
   MANAGEMENT_SERVICE_URL: ""
   PAYMENT_SERVICE_URL: ""
   DATABASE_URL: "postgresql://myburger-db-server-do-user-17490961-0.l.db.ondigitalocean.com:25060/my_burger"
@@ -22,4 +22,3 @@ data:
   MP_PAYMENT_URL: https://api.mercadopago.com/v1/payments
   MP_MERCHANT_URL: https://api.mercadolibre.com/merchant_orders
   MP_REQUEST_URL: https://api.mercadopago.com/instore/orders/qr/seller/collectors/1687509/pos/SUC001POS001/qrs
-
