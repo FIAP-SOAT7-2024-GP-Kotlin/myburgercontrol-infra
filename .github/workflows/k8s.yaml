@@ -1,10 +1,10 @@
 name: Deployk8s
 
 on:
-  push:
-    branches:
-      - main
-      - update-k8s
+  workflow_run:
+    workflows: [Terraform]
+    types:
+      - completed
 
 jobs:
   deploy-k8s:

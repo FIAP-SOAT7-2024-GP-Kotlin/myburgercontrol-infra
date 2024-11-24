@@ -14,6 +14,8 @@ data:
     -XX:+CrashOnOutOfMemoryError
     -Xlog:gc
   MONGODB_URI: "#MONGODB_URI#"
+  MONGODB_USERNAME: "#MONGO_DATABASE_USERNAME#"
+  MONGODB_PASSWORD: "#MONGO_DATABASE_PASSWORD#"
   MANAGEMENT_SERVICE_URL: ""
   PAYMENT_SERVICE_URL: ""
   DATABASE_URL: "postgresql://myburger-db-server-do-user-17490961-0.l.db.ondigitalocean.com:25060/my_burger"
