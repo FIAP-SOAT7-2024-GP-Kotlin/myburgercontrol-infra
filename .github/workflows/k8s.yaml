@@ -44,6 +44,7 @@ jobs:
           PG_DB_PASS: ${{ env.PG_DB_PASS }}
           MONGO_DB_PASS: ${{ env.MONGO_DB_PASS }}
           MONGODB_URI: ${{ env.MONGODB_URI }}
+          MONGODB_USER: order-admin
         run: |
           mkdir tmp
           echo "PG_DB_PASS=$PG_DB_PASS"
@@ -53,6 +54,8 @@ jobs:
           sed 's/#PG_DATABASE_PASSWORD#/'"$PG_DB_PASS"'/g' k8s/app/myburger-secret-template.yaml > tmp/myburger-secret.yaml
           cat tmp/myburger-secret.yaml
           sed 's/#MONGO_DATABASE_PASSWORD#/'"$MONGO_DB_PASS"'/g' k8s/app/myburger-secret-template.yaml > tmp/myburger-secret.yaml
+          cat tmp/myburger-secret.yaml
+          sed 's/#MONGO_DATABASE_USERNAME#/'"$MONGODB_USER"'/g' k8s/app/myburger-secret-template.yaml > tmp/myburger-secret.yaml
           cat tmp/myburger-secret.yaml
           sed 's/#MONGODB_URI#/'"$UPDATED_MONGO_DB_URI"'/' k8s/app/myburger-configmap.yaml > tmp/myburger-configmap.yaml
           cat tmp/myburger-configmap.yaml
