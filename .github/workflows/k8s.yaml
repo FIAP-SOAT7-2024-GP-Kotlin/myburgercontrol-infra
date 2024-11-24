@@ -48,7 +48,7 @@ jobs:
           mkdir tmp
           echo "PG_DB_PASS=$PG_DB_PASS"
           echo "MONGO_DB_PASS=${MONGO_DB_PASS}"
-          UPDATED_MONGO_DB_URI=$(echo $MONGODB_URI | sed 's/doadmin:/admin:'"$MONGO_DB_PASS"'/')
+          UPDATED_MONGO_DB_URI=$(echo "${MONGODB_URI}" | sed 's/doadmin:/admin:'"$MONGO_DB_PASS"'/')
           echo "UPDATED_MONGO_DB_URI=$UPDATED_MONGO_DB_URI"
           sed 's/#PG_DATABASE_PASSWORD#/'"$PG_DB_PASS"'/g; s/#MONGO_DATABASE_PASSWORD#/'"$MONGO_DB_PASS"'/g' k8s/app/myburger-secret-template.yaml > tmp/myburger-secret.yaml
           sed 's/#MONGODB_URI#/'"$UPDATED_MONGO_DB_URI"'/' k8s/app/myburger-configmap.yaml > tmp/myburger-configmap.yaml
