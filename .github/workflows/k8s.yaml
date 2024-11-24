@@ -1,10 +1,9 @@
 name: Deployk8s
 
 on:
-  workflow_run:
-    workflows: [Terraform]
-    types:
-      - completed
+  push:
+    branches:
+      - update-k8s
 
 jobs:
   deploy-k8s:
@@ -29,7 +28,7 @@ jobs:
           echo "PG_DB_PASS=$PG_DB_PASS" >> $GITHUB_ENV
 
           MONGO_DB_ID=$(doctl db list | grep mongo | awk '{print $1}')
-          MONGO_DB_PASS=$(doctl databases user get $MONGO_DB_ID $DATABASE_USER --format Password --no-header)
+          MONGO_DB_PASS=$(doctl databases user create $MONGO_DB_ID order-admin -o json >> mongo_password.txt && jq -r '.[0].password' mongo_password.txt)
           MONGODB_URI=$(doctl databases connection $MONGO_DB_ID --format URI --no-header)
           echo "MONGODB_URI"=$MONGODB_URI >> $GITHUB_ENV
           echo "MONGO_DB_PASS=$MONGO_DB_PASS" >> $GITHUB_ENV
@@ -43,13 +42,22 @@ jobs:
         env:
           PG_DB_PASS: ${{ env.PG_DB_PASS }}
           MONGO_DB_PASS: ${{ env.MONGO_DB_PASS }}
+          MONGODB_URI: ${{ env.MONGODB_URI }}
+          MONGODB_USER: order-admin
         run: |
           mkdir tmp
           echo "PG_DB_PASS=$PG_DB_PASS"
-          echo "MONGO_DB_PASS=$MONGO_DB_PASS"
-          sed 's/#PG_DATABASE_PASSWORD#/'"$PG_DB_PASS"'/g; s/#MONGO_DATABASE_PASSWORD#/'"$MONGO_DB_PASS"'/g' k8s/app/myburger-secret-template.yaml > tmp/myburger-secret.yaml
-          sed 's/#MONGODB_URI#/'"$MONGODB_URI"'/g; k8s/app/myburger-configmap.yaml > tmp/myburger-configmap.yaml
-          kubectl apply -f k8s/app/myburger-configmap.yaml
+          echo "MONGO_DB_PASS=${MONGO_DB_PASS}"
+
+          UPDATED_MONGO_DB_URI=$(echo "${MONGODB_URI}" | sed "s|doadmin:@|admin:${MONGO_DB_PASS}@|")
+          echo "UPDATED_MONGO_DB_URI=$UPDATED_MONGO_DB_URI"
+          sed 's/#PG_DATABASE_PASSWORD#/'"$PG_DB_PASS"'/g; s/#MONGO_DATABASE_PASSWORD#/'"$MONGO_DB_PASS"'/g; s/#MONGO_DATABASE_USERNAME#/'"$MONGODB_USER"'/g' k8s/app/myburger-secret-template.yaml > tmp/myburger-secret.yaml
+
+          UPDATED_MONGO_DB_URI=$(echo "${UPDATED_MONGO_DB_URI}" | sed 's/[&/\]/\\&/g')
+          sed "s|#MONGODB_URI#|${UPDATED_MONGO_DB_URI}|g" k8s/app/myburger-configmap.yaml > tmp/myburger-configmap.yaml
+          cat tmp/myburger-configmap.yaml
+          cat tmp/myburger-secret.yaml
+
           kubectl apply -f tmp/myburger-secret.yaml
           kubectl apply -f tmp/myburger-configmap.yaml
           kubectl apply -f k8s/app/myburger-order-deployment.yaml --wait=true
