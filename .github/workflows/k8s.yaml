@@ -29,7 +29,7 @@ jobs:
           echo "PG_DB_PASS=$PG_DB_PASS" >> $GITHUB_ENV
 
           MONGO_DB_ID=$(doctl db list | grep mongo | awk '{print $1}')
-          MONGO_DB_PASS=$(doctl databases user create $MONGO_DB_ID admin -o json >> mongo_password.txt && jq -r '.[0].password' mongo_password.txt)
+          MONGO_DB_PASS=$(doctl databases user create $MONGO_DB_ID order-admin -o json >> mongo_password.txt && jq -r '.[0].password' mongo_password.txt)
           MONGODB_URI=$(doctl databases connection $MONGO_DB_ID --format URI --no-header)
           echo "MONGODB_URI"=$MONGODB_URI >> $GITHUB_ENV
           echo "MONGO_DB_PASS=$MONGO_DB_PASS" >> $GITHUB_ENV
@@ -47,7 +47,7 @@ jobs:
           mkdir tmp
           echo "PG_DB_PASS=$PG_DB_PASS"
           echo "MONGO_DB_PASS=$MONGO_DB_PASS"
-          UPDATED_MONGO_DB_URI=$(echo '$MONGODB_URI' | sed 's/doadmin:/admin:"$MONGODB_PASS"/')
+          UPDATED_MONGO_DB_URI=$(echo '$MONGODB_URI' | sed 's/doadmin:/admin:'"$MONGO_DB_PASS"'/')
           sed 's/#PG_DATABASE_PASSWORD#/'"$PG_DB_PASS"'/g; s/#MONGO_DATABASE_PASSWORD#/'"$MONGO_DB_PASS"'/g' k8s/app/myburger-secret-template.yaml > tmp/myburger-secret.yaml
           sed 's/#MONGODB_URI#/'"$UPDATED_MONGO_DB_URI"'/' k8s/app/myburger-configmap.yaml > tmp/myburger-configmap.yaml
           kubectl apply -f k8s/app/myburger-configmap.yaml
