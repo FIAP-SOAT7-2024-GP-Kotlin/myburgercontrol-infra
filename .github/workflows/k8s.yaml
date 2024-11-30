@@ -51,7 +51,7 @@ jobs:
 
           UPDATED_MONGO_DB_URI=$(echo "${MONGODB_URI}" | sed "s|doadmin:@|admin:${MONGO_DB_PASS}@|")
           echo "UPDATED_MONGO_DB_URI=$UPDATED_MONGO_DB_URI"
-          sed -i 's/#PG_DATABASE_PASSWORD#/'"$PG_DB_PASS"'/g; s/#MONGO_DATABASE_PASSWORD#/'"$MONGO_DB_PASS"'/g; s/#MONGO_DATABASE_USERNAME#/'"$MONGODB_USER"'/g' k8s/app/myburger-secret-template.yaml
+          sed -i 's/#PG_DATABASE_PASSWORD#/'"$PG_DB_PASS"'/g; s/#MONGO_DATABASE_PASSWORD#/'"$MONGO_DB_PASS"'/g; s/#MONGO_DATABASE_USERNAME#/'"$MONGODB_USER"'/g' k8s/app/myburger-secret.yaml
 
           UPDATED_MONGO_DB_URI=$(echo "${UPDATED_MONGO_DB_URI}" | sed 's/[&/\]/\\&/g')
           sed -i "s|#MONGODB_URI#|${UPDATED_MONGO_DB_URI}|g" k8s/app/myburger-configmap.yaml
