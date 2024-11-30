@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main
-      - feature/mongo-db
-      - setup-order-k8s
+      - feature/fix-kong-routes
   workflow_dispatch:
 
 jobs:
