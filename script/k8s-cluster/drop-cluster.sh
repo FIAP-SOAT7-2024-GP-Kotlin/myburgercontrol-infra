@@ -25,5 +25,5 @@ echo "Deleting Load Balancers"
 LB_IDS=$(doctl compute load-balancer list --format ID --no-header)
 for LB_IDS in $LB_IDS; do
   echo "Deleting database with ID: $LB_IDS"
-  doctl compute droplet delete $LB_IDS --force
+  doctl compute load-balancer delete $LB_IDS --force
 done
