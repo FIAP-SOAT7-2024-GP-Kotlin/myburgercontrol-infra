@@ -49,7 +49,7 @@ jobs:
         run: |
           K8S_LB_IP_ORDER=$(kubectl get svc myburger-order -o jsonpath='{.status.loadBalancer.ingress[0].ip}') 
           echo "K8S_LB_IP_ORDER=$K8S_LB_IP_ORDER" >> $GITHUB_ENV
-          K8S_LB_IP_PAYMENT=$(kubectl get svc myburger-order -o jsonpath='{.status.loadBalancer.ingress[0].ip}') 
+          K8S_LB_IP_PAYMENT=$(kubectl get svc myburger-payment -o jsonpath='{.status.loadBalancer.ingress[0].ip}') 
           echo "K8S_LB_IP_PAYMENT=$K8S_LB_IP_PAYMENT" >> $GITHUB_ENV
       - name: Deploy to Digital Ocean droplet via SSH action
         uses: appleboy/ssh-action@master
