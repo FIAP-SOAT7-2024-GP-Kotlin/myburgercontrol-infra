@@ -63,7 +63,8 @@ jobs:
             cd api-gtw/
             echo "K8S_LB_IP_ORDER=${{ env.K8S_LB_IP_ORDER }}"
             echo "K8S_LB_IP_PAYMENT=${{ env.K8S_LB_IP_PAYMENT }}"
-            sed 's/#K8S_LB_IP_ORDER#/'"${{ env.K8S_LB_IP_ORDER }}"; s/#K8S_LB_IP_PAYMENT#/'"${{ env.K8S_LB_IP_PAYMENT }}"' -i kong/kong.yml
+            sed -i 's/#K8S_LB_IP_ORDER#/'"${{ env.K8S_LB_IP_ORDER }}"'/; s/#K8S_LB_IP_PAYMENT#/'"${{ env.K8S_LB_IP_PAYMENT }}"'/' kong/kong.yml
+
             docker compose down
             docker compose pull
             docker compose up -d
