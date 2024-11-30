@@ -55,11 +55,13 @@ jobs:
 
           UPDATED_MONGO_DB_URI=$(echo "${UPDATED_MONGO_DB_URI}" | sed 's/[&/\]/\\&/g')
           sed -i "s|#MONGODB_URI#|${UPDATED_MONGO_DB_URI}|g" k8s/app/myburger-configmap.yaml
+
           cat k8s/app/myburger-configmap.yaml
           cat k8s/app/myburger-secret.yaml
 
           kubectl apply -f k8s/app/myburger-secret.yaml
           kubectl apply -f k8s/app/myburger-configmap.yaml
+
           kubectl apply -f k8s/app/myburger-order-deployment.yaml --wait=true
           kubectl apply -f k8s/app/myburger-payment-deployment.yaml --wait=true
           kubectl apply -f k8s/app/myburger-hpa.yaml
