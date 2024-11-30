@@ -61,7 +61,6 @@ jobs:
 
           kubectl apply -f k8s/app/myburger-secret.yaml
           kubectl apply -f k8s/app/myburger-configmap.yaml
-
           kubectl apply -f k8s/app/myburger-order-deployment.yaml --wait=true
           kubectl apply -f k8s/app/myburger-payment-deployment.yaml --wait=true
           kubectl apply -f k8s/app/myburger-hpa.yaml
