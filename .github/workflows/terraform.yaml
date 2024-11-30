@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/fix-kong-routes
   workflow_dispatch:
 
 jobs:
