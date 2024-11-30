@@ -70,13 +70,15 @@ jobs:
       - name: Wait for LoadBalancer
         run: |
           echo "Waiting for Service LoadBalancer to start"
+          required_ips=2  # Número de IPs necessários
           for i in {1..30}; do
-            K8S_LB_IP=`kubectl get svc -o=jsonpath='{.items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[0].ip}'`
-            if [ ! -z "$K8S_LB_IP" ]; then
-              echo "LoadBalancer started $K8S_LB_IP"
+            K8S_LB_IPS=($(kubectl get svc -o=jsonpath='{.items[?(@.spec.type=="LoadBalancer")].status.loadBalancer.ingress[*].ip}'))
+            if [ ${#K8S_LB_IPS[@]} -ge $required_ips ]; then
+              echo "LoadBalancer started with IPs: ${K8S_LB_IPS[@]}"
               exit 0
             fi
 
             sleep 20
           done
           echo "LoadBalancer failed to start"
+
