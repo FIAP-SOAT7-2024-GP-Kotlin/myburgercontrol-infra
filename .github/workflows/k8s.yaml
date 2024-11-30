@@ -62,8 +62,10 @@ jobs:
           kubectl apply -f tmp/myburger-secret.yaml
           kubectl apply -f tmp/myburger-configmap.yaml
           kubectl apply -f k8s/app/myburger-order-deployment.yaml --wait=true
+          kubectl apply -f k8s/app/myburger-payment-deployment.yaml --wait=true
           kubectl apply -f k8s/app/myburger-hpa.yaml
-          kubectl apply -f k8s/app/myburger-svc.yaml --wait=true
+          kubectl apply -f k8s/app/myburger-order-svc.yaml --wait=true
+          kubectl apply -f k8s/app/myburger-payment-svc.yaml --wait=true
 
       - name: Wait for LoadBalancer
         run: |

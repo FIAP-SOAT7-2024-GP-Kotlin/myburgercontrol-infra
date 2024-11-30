@@ -35,12 +35,23 @@ services:
     strip_path: true
 
 - name: myburger-service
-  host: "#K8S_LB_IP#"
+  host: "#K8S_LB_IP_ORDER#"
   port: 8080
   protocol: http
   path: "/api/v1"
   routes:
   - name: myburger-route
     paths:
-    - "/api/v1"
+    - "/api/v1/"
+    strip_path: true
+
+- name: myburger-service
+  host: "#K8S_LB_IP_PAYMENT#"
+  port: 8080
+  protocol: http
+  path: "/api/v1/payments"
+  routes:
+  - name: myburger-route
+    paths:
+    - "/api/v1/"
     strip_path: true
