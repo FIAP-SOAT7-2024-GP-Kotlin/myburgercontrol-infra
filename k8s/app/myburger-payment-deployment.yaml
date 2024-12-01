@@ -13,7 +13,7 @@ spec:
         app: myburger-payment
     spec:
       containers:
-        - name: myburger-order
+        - name: myburger-payment
           image: fiapmyburguer/myburger-payment-service:latest
           imagePullPolicy: Always
           resources:
