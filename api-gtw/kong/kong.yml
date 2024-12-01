@@ -36,8 +36,10 @@ services:
   plugins:
     - name: request-transformer
       config:
-        remove:
-          body: ""
+        add:
+          headers:
+            Content-Type: application/json # Ensure the content type is explicitly set
+
 
 - name: myburger-order-service
   host: "#K8S_LB_IP_ORDER#"
