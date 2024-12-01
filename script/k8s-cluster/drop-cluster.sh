@@ -17,13 +17,13 @@ done
 echo "Deleting Dropletes"
 DROPLET_IDS=$(doctl compute droplet list --format ID --no-header)
 for DROPLET_ID in $DROPLET_IDS; do
-  echo "Deleting database with ID: $DROPLET_ID"
+  echo "Deleting droplet with ID: $DROPLET_ID"
   doctl compute droplet delete $DROPLET_ID --force
 done
 
 echo "Deleting Load Balancers"
 LB_IDS=$(doctl compute load-balancer list --format ID --no-header)
 for LB_IDS in $LB_IDS; do
-  echo "Deleting database with ID: $LB_IDS"
+  echo "Deleting Load Balancer with ID: $LB_IDS"
   doctl compute load-balancer delete $LB_IDS --force
 done
