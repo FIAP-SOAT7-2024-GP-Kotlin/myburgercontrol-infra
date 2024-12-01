@@ -14,6 +14,13 @@ plugins:
         headers:
         - "Authorization: Basic MWYxNGEzMzUtYTQ0OC00NTllLWE5MDMtYTVjNzg5OTA5MmY5Ojlmd2ZNUTNxYzBXcVY1YWpSTTFJS2syZndsQWtIS01aakI0M0dQQmdpQ2sxOEp4c2JiZlBuMHJqMFpkR3NKb1I="
 
+consumers: 
+- username: user 
+  jwt_secrets: 
+  - key: my_key
+    algorithm: HS256
+    secret: lkjhaskljdajkdlsfjklsdgjklssdljkgff
+
 routes:
   - name: healthcheck
     paths:
@@ -44,6 +51,13 @@ services:
     paths:
     - "/api/v1/order"
     strip_path: true
+    plugins: 
+      - name: jwt 
+        config: 
+          claims_to_verify: 
+          - exp 
+          key_claim_name: iss 
+          secret_is_base64: false
 
 - name: myburger-payment-service
   host: "#K8S_LB_IP_PAYMENT#"
@@ -55,3 +69,10 @@ services:
     paths:
     - "/api/v1/payment"
     strip_path: true
+    plugins: 
+      - name: jwt 
+        config: 
+          claims_to_verify: 
+          - exp 
+          key_claim_name: iss 
+          secret_is_base64: false
