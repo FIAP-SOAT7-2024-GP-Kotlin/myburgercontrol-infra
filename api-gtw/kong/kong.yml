@@ -40,6 +40,12 @@ services:
     paths:
     - "/api/v1/auth"
     strip_path: true
+  plugins:
+    - name: request-transformer
+      config:
+        add:
+          headers:
+          - Content-Type: application/json # Ensure the content type is explicitly set
 
 - name: myburger-order-service
   host: "#K8S_LB_IP_ORDER#"
