@@ -38,7 +38,7 @@ services:
       config:
         add:
           headers:
-            Content-Type: application/json # Ensure the content type is explicitly set
+          - Content-Type: application/json # Ensure the content type is explicitly set
 
 
 - name: myburger-order-service
