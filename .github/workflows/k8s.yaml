@@ -25,6 +25,8 @@ jobs:
           PG_DB_ID=$(doctl db list | grep pg | awk '{print $1}')
           PG_DB_PASS=$(doctl databases user get $PG_DB_ID $DATABASE_USER --format Password --no-header)
           PG_DB_HOST=$(doctl databases connection $PG_DB_ID --format Host --no-header)
+          PG_DB_PORT=$(doctl databases connection $PG_DB_ID --format Port --no-header)
+          echo "PG_DB_PORT"=$PG_DB_PORT >> $GITHUB_ENV
           echo "PG_DB_HOST"=$PG_DB_HOST >> $GITHUB_ENV
           echo "PG_DB_PASS=$PG_DB_PASS" >> $GITHUB_ENV
 
@@ -41,6 +43,8 @@ jobs:
 
       - name: Kube Apply
         env:
+          PG_DB_HOST: ${{ env.PG_DB_HOST }}
+          PG_DB_PORT: ${{ env.PG_DB_PORT }}
           PG_DB_PASS: ${{ env.PG_DB_PASS }}
           MONGO_DB_PASS: ${{ env.MONGO_DB_PASS }}
           MONGODB_URI: ${{ env.MONGODB_URI }}
@@ -54,7 +58,7 @@ jobs:
           sed -i 's/#PG_DATABASE_PASSWORD#/'"$PG_DB_PASS"'/g; s/#MONGO_DATABASE_PASSWORD#/'"$MONGO_DB_PASS"'/g; s/#MONGO_DATABASE_USERNAME#/'"$MONGODB_USER"'/g' k8s/app/myburger-secret.yaml
 
           UPDATED_MONGO_DB_URI=$(echo "${UPDATED_MONGO_DB_URI}" | sed 's/[&/\]/\\&/g')
-          sed -i "s|#MONGODB_URI#|${UPDATED_MONGO_DB_URI}|g" k8s/app/myburger-configmap.yaml
+          sed -i "s|#MONGODB_URI#|${UPDATED_MONGO_DB_URI}|g; s|#PG_DB_HOST#|${PG_DB_HOST}|; s|#PG_DB_PORT#|${PG_DB_PORT}|" k8s/app/myburger-configmap.yaml
 
           cat k8s/app/myburger-configmap.yaml
           cat k8s/app/myburger-secret.yaml

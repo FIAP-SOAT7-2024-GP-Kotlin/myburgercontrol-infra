@@ -16,7 +16,7 @@ data:
   MONGODB_URI: "#MONGODB_URI#"
   MANAGEMENT_SERVICE_URL: ""
   PAYMENT_SERVICE_URL: ""
-  DATABASE_URL: "postgresql://myburger-db-server-do-user-17490961-0.l.db.ondigitalocean.com:25060/my_burger"
+  DATABASE_URL: "postgresql://#PG_DB_HOST#:#PG_DB_PORT#/my_burger"
   LOG_LEVEL: "DEBUG"
   MP_NOTIFICATION_URL: https://concise-humble-mosquito.ngrok-free.app/api/v1/webhook?source_news=ipn
   MP_PAYMENT_URL: https://api.mercadopago.com/v1/payments
