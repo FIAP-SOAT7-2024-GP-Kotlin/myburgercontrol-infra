@@ -85,4 +85,3 @@ jobs:
             sleep 20
           done
           echo "LoadBalancer failed to start"
-
