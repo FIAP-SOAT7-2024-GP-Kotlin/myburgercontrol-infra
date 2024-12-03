@@ -42,7 +42,20 @@ jobs:
           doctl kubernetes cluster kubeconfig save $K8S_CLUSTER_NAME
 
       - name: Kube Apply
+        env:
+          PG_DB_HOST: ${{ env.PG_DB_HOST }}
+          PG_DB_PORT: ${{ env.PG_DB_PORT }}
+          PG_DB_PASS: ${{ env.PG_DB_PASS }}
+          MONGO_DB_PASS: ${{ env.MONGO_DB_PASS }}
+          MONGODB_URI: ${{ env.MONGODB_URI }}
+          MONGODB_USER: order-admin
         run: |
+          UPDATED_MONGO_DB_URI=$(echo "${MONGODB_URI}" | sed "s|doadmin:@|order-admin:${MONGO_DB_PASS}@|")
+          UPDATED_MONGO_DB_URI=$(echo "${UPDATED_MONGO_DB_URI}" | sed 's/[&/\]/\\&/g')
+          sed -i "s|#MONGODB_URI#|${UPDATED_MONGO_DB_URI}|g; s|#PG_DB_HOST#|${PG_DB_HOST}|; s|#PG_DB_PORT#|${PG_DB_PORT}|" k8s/app/myburger-configmap.yaml
+
+          sed -i 's/#PG_DATABASE_PASSWORD#/'"$PG_DB_PASS"'/g; s/#MONGO_DATABASE_PASSWORD#/'"$MONGO_DB_PASS"'/g; s/#MONGO_DATABASE_USERNAME#/'"$MONGODB_USER"'/g' k8s/app/myburger-secret.yaml
+
           kubectl apply -f k8s/app/myburger-secret.yaml
           kubectl apply -f k8s/app/myburger-configmap.yaml
           kubectl apply -f k8s/app/myburger-order-deployment.yaml --wait=true
@@ -67,13 +80,6 @@ jobs:
           echo "LoadBalancer failed to start"
 
       - name: Updatekubeconfig
-        env:
-          PG_DB_HOST: ${{ env.PG_DB_HOST }}
-          PG_DB_PORT: ${{ env.PG_DB_PORT }}
-          PG_DB_PASS: ${{ env.PG_DB_PASS }}
-          MONGO_DB_PASS: ${{ env.MONGO_DB_PASS }}
-          MONGODB_URI: ${{ env.MONGODB_URI }}
-          MONGODB_USER: order-admin
         run: |
           K8S_CLUSTER_NAME=`doctl kubernetes cluster list --no-header --format Name`
           doctl kubernetes cluster kubeconfig save $K8S_CLUSTER_NAME
@@ -81,19 +87,7 @@ jobs:
 
           echo "WEB_HOOK_IP=$WEB_HOOK_IP" 
 
-          echo "PG_DB_PASS=$PG_DB_PASS"
-          echo "MONGO_DB_PASS=${MONGO_DB_PASS}"
+          sed -i "s|#WEB_HOOK_IP#|${WEB_HOOK_IP}|" k8s/app/myburger-configmap.yaml
 
-          UPDATED_MONGO_DB_URI=$(echo "${MONGODB_URI}" | sed "s|doadmin:@|order-admin:${MONGO_DB_PASS}@|")
-          echo "UPDATED_MONGO_DB_URI=$UPDATED_MONGO_DB_URI"
-          sed -i 's/#PG_DATABASE_PASSWORD#/'"$PG_DB_PASS"'/g; s/#MONGO_DATABASE_PASSWORD#/'"$MONGO_DB_PASS"'/g; s/#MONGO_DATABASE_USERNAME#/'"$MONGODB_USER"'/g' k8s/app/myburger-secret.yaml
-
-          UPDATED_MONGO_DB_URI=$(echo "${UPDATED_MONGO_DB_URI}" | sed 's/[&/\]/\\&/g')
-          sed -i "s|#MONGODB_URI#|${UPDATED_MONGO_DB_URI}|g; s|#PG_DB_HOST#|${PG_DB_HOST}|; s|#PG_DB_PORT#|${PG_DB_PORT}|; s|#WEB_HOOK_IP#|${WEB_HOOK_IP}|" k8s/app/myburger-configmap.yaml
-
-          cat k8s/app/myburger-configmap.yaml
-          cat k8s/app/myburger-secret.yaml
-
-          kubectl apply -f k8s/app/myburger-secret.yaml
           kubectl apply -f k8s/app/myburger-configmap.yaml
           kubectl rollout restart deployment myburger-payment

@@ -14,6 +14,7 @@ data:
     -XX:+CrashOnOutOfMemoryError
     -Xlog:gc
   MONGODB_URI: "#MONGODB_URI#"
+  ORDER_SERVICE_URL: ""
   MANAGEMENT_SERVICE_URL: ""
   PAYMENT_SERVICE_URL: "http://myburger-payment:8080/payment"
   DATABASE_URL: "postgresql://#PG_DB_HOST#:#PG_DB_PORT#/my_burger"
