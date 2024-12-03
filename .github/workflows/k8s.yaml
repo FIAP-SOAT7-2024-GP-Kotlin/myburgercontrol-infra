@@ -83,11 +83,10 @@ jobs:
         run: |
           K8S_CLUSTER_NAME=`doctl kubernetes cluster list --no-header --format Name`
           doctl kubernetes cluster kubeconfig save $K8S_CLUSTER_NAME
-          WEB_HOOK_IP=$(kubectl get svc myburger-payment -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          PAYMENT_SERVICE=$(kubectl get svc myburger-payment -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
-          echo "WEB_HOOK_IP=$WEB_HOOK_IP" 
-
-          sed -i "s|#WEB_HOOK_IP#|${WEB_HOOK_IP}|" k8s/app/myburger-configmap.yaml
+          sed -i "s|#PAYMENT_SERVICE#|${PAYMENT_SERVICE}|g" k8s/app/myburger-configmap.yaml
 
           kubectl apply -f k8s/app/myburger-configmap.yaml
           kubectl rollout restart deployment myburger-payment
+          kubectl rollout restart deployment myburger-order
