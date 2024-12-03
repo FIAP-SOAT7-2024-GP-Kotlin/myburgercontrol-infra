@@ -16,10 +16,10 @@ data:
   MONGODB_URI: "#MONGODB_URI#"
   ORDER_SERVICE_URL: ""
   MANAGEMENT_SERVICE_URL: ""
-  PAYMENT_SERVICE_URL: "http://myburger-payment:8080/payment"
+  PAYMENT_SERVICE_URL: "http://#PAYMENT_SERVICE#:8080/api/v1/payment"
   DATABASE_URL: "postgresql://#PG_DB_HOST#:#PG_DB_PORT#/my_burger"
-  LOG_LEVEL: "DEBUG"
-  MP_NOTIFICATION_URL: https://#WEB_HOOK_IP#:8080/api/v1/webhook?source_news=ipn
+  LOG_LEVEL: "INFO"
+  MP_NOTIFICATION_URL: http://#PAYMENT_SERVICE#:8080/api/v1/webhook?source_news=ipn
   MP_PAYMENT_URL: https://api.mercadopago.com/v1/payments
   MP_MERCHANT_URL: https://api.mercadolibre.com/merchant_orders
   MP_REQUEST_URL: https://api.mercadopago.com/instore/orders/qr/seller/collectors/1687509/pos/SUC001POS001/qrs
