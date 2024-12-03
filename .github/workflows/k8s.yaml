@@ -78,6 +78,7 @@ jobs:
           K8S_CLUSTER_NAME=`doctl kubernetes cluster list --no-header --format Name`
           doctl kubernetes cluster kubeconfig save $K8S_CLUSTER_NAME
           WEB_HOOK_IP=$(kubectl get svc myburger-payment -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
           echo "WEB_HOOK_IP=$WEB_HOOK_IP" 
 
           echo "PG_DB_PASS=$PG_DB_PASS"
